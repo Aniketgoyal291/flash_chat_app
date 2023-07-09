@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import 'registration_screen.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flash_chat_flutter/components/rounded_button.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
@@ -21,10 +23,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       duration: const Duration(seconds: 1),
       vsync: this,
     );
-
     controller.forward();
-    animation = CurvedAnimation(parent: controller, curve: Curves.easeOut);
+    animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
+        .animate(controller);
+    controller.addListener(() {
+      setState(() {});
+    });
 
+    // animation = CurvedAnimation(parent: controller, curve: Curves.easeOut);
     // animation.addStatusListener((status) {
     //   print(status);
     //   if (status == AnimationStatus.completed) {
@@ -33,13 +39,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     //     controller.forward();
     //   }
     // });
-
-    animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
-        .animate(controller);
-
-    controller.addListener(() {
-      setState(() {});
-    });
   }
 
   @override
@@ -68,55 +67,51 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     child: Image.asset('images/logo.png'),
                   ),
                 ),
-                const Text(
-                  'Flash Chat',
-                  style: TextStyle(
-                    fontSize: 45.0,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.grey,
+                SizedBox(
+                  child: DefaultTextStyle(
+                    style: const TextStyle(
+                      fontSize: 45.0,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.grey,
+                    ),
+                    child: AnimatedTextKit(
+                      repeatForever: true,
+                      animatedTexts: [
+                        TypewriterAnimatedText('Flash Chat',
+                            speed: const Duration(
+                              milliseconds: 100,
+                            )),
+                      ],
+                    ),
                   ),
                 ),
+                // TypewriterAnimatedTextKit(
+                //   speed: const Duration(milliseconds: 90),
+                //   isRepeatingAnimation: false,
+                //   text: const ['Flash Chat'],
+                //   textStyle: const TextStyle(
+                //     fontSize: 45.0,
+                //     fontWeight: FontWeight.w900,
+                //     color: Colors.grey,
+                //   ),
+                // ),
               ],
             ),
             const SizedBox(
               height: 48.0,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                elevation: 5.0,
-                color: Colors.lightBlueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, LoginScreen.id);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: const Text(
-                    'Log In',
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                elevation: 5.0,
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, RegistrationScreen.id);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: const Text(
-                    'Register',
-                  ),
-                ),
-              ),
-            ),
+            RoundedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, LoginScreen.id);
+                },
+                title: 'Log In',
+                color: Colors.lightBlueAccent),
+            RoundedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, RegistrationScreen.id);
+                },
+                title: 'Register',
+                color: Colors.blueAccent),
           ],
         ),
       ),
