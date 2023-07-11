@@ -77,6 +77,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     });
                   } catch (e) {
                     print(e);
+                    setState(() {
+                      _isSpinning = false;
+                    });
                   }
                 },
                 title: 'Log In',
