@@ -34,10 +34,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 height: 200.0,
                 child: Image.asset('images/logo.png'),
               ),
-              const Hero(
-                tag: 'logo',
-                child: SizedBox(
-                  height: 48.0,
+              const Flexible(
+                child: Hero(
+                  tag: 'logo',
+                  child: SizedBox(
+                    height: 48.0,
+                  ),
                 ),
               ),
               TextField(
